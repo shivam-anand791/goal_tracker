@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Habit Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    // Check authentication before loading app
+    if (!localStorage.getItem("token")) {
+      window.location.href = "auth.html";
+    }
+  </script>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+
+  <div id="loadingOverlay" class="loading-overlay" aria-hidden="true">
+    <div class="loader">Loading…</div>
+  </div>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="logo-block">
+        <div class="logo-dot"></div>
+        <div class="logo-text">
+          <span class="logo-title">FocusBoard</span>
+          <span class="logo-sub">Habits · Progress · You</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button type="button" class="nav-item nav-item-active">
+          <span class="nav-dot"></span>
+          Overview
+        </button>
+        <button type="button" class="nav-item">
+          <span class="nav-dot muted"></span>
+          Habits
+        </button>
+        <button type="button" class="nav-item">
+          <span class="nav-dot muted"></span>
+          Analytics
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <p>Synced with backend. Your habits are saved securely.</p>
+        <button type="button" id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </aside>
+
+    <main class="app">
+      <header class="top-bar">
+        <div class="month-block">
+          <div class="month-label">Current cycle</div>
+          <input
+            type="text"
+            id="monthNameInput"
+            class="month-name"
+            placeholder="Month name"
+          />
+          <div class="month-controls">
+            <label for="monthLengthSelect">Days</label>
+            <select id="monthLengthSelect">
+              <option value="28">28</option>
+              <option value="29">29</option>
+              <option value="30" selected>30</option>
+              <option value="31">31</option>
+            </select>
+            <button type="button" id="newMonthBtn" class="secondary-btn pill-btn">
+              New cycle
+            </button>
+          </div>
+        </div>
+
+        <div class="summary">
+          <div class="summary-item">
+            <span class="label">Habits</span>
+            <span class="value" id="numHabits">0</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Total completions</span>
+            <span class="value" id="completedHabits">0</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">Overall progress</span>
+            <span class="value highlight" id="overallProgress">0%</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="controls">
+        <form id="addHabitForm" class="add-habit-form">
+          <div class="field-group">
+            <label for="newHabitName">Add new habit</label>
+            <input
+              type="text"
+              id="newHabitName"
+              placeholder="e.g. Morning run, Study 2 hrs"
+              autocomplete="off"
+            />
+          </div>
+          <button type="submit" class="primary-btn pill-btn">
+            + Add
+          </button>
+        </form>
+        <div style="display:flex;gap:0.6rem;align-items:center;">
+          <button type="button" id="saveBtn" class="secondary-btn pill-btn">Save</button>
+          <button type="button" id="resetAllBtn" class="danger-btn pill-btn">Reset everything</button>
+          <span id="saveStatus" aria-live="polite" style="font-size:0.85rem;color:var(--text-muted);"></span>
+        </div>
+      </section>
+
+      <section class="grid-section card">
+        <div class="section-header">
+          <h2>Daily checklist</h2>
+          <p class="section-sub">
+            Check off what you actually did. The rest is just intentions.
+          </p>
+        </div>
+        <div class="table-wrapper">
+          <table id="habitTable">
+            <thead>
+              <tr>
+                <!-- header injected by JS -->
+              </tr>
+            </thead>
+            <tbody>
+              <!-- rows injected by JS -->
+            </tbody>
+            <tfoot>
+              <!-- summary injected by JS -->
+            </tfoot>
+          </table>
+        </div>
+      </section>
+
+      <section class="analysis-section card">
+        <div class="section-header">
+          <h2>Habit analysis</h2>
+          <p class="section-sub">
+            Set realistic goals per habit and watch the completion bars move.
+          </p>
+        </div>
+        <table id="analysisTable">
+          <thead>
+            <tr>
+              <th>Habit</th>
+              <th>Goal (days)</th>
+              <th>Actual</th>
+              <th>Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
